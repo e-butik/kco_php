@@ -64,6 +64,13 @@ class Klarna_Checkout_BasicConnector implements Klarna_Checkout_ConnectorInterfa
     private $_secret;
 
     /**
+     * Base URI that is used to create order resources
+     *
+     * @var string
+     */
+    protected $_baseUri = null;
+
+    /**
      * Create a new Checkout Connector
      *
      * @param Klarna_Checkout_HTTP_TransportInterface $http     transport
@@ -78,6 +85,28 @@ class Klarna_Checkout_BasicConnector implements Klarna_Checkout_ConnectorInterfa
         $this->http = $http;
         $this->digester = $digester;
         $this->_secret = $secret;
+    }
+
+    /**
+     * Get the Base URI that is used to create order resources
+     *
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return $this->_baseUri;
+    }
+
+    /**
+     * Set the Base URI that is used to create order resources
+     *
+     * @param string $location Base URI that is used to create order resources
+     *
+     * @return void
+     */
+    public function setBaseUri($baseUri)
+    {
+        $this->_baseUri = $baseUri;
     }
 
     /**
@@ -104,6 +133,8 @@ class Klarna_Checkout_BasicConnector implements Klarna_Checkout_ConnectorInterfa
         Klarna_Checkout_ResourceInterface $resource,
         array $options = null
     ) {
+        $options = array_merge(array('url' => $this->_baseUri), $options);
+
         switch ($method) {
         case 'GET':
         case 'POST':

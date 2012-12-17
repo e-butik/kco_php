@@ -42,18 +42,11 @@ class Klarna_Checkout_Order
     implements Klarna_Checkout_ResourceInterface, ArrayAccess
 {
     /**
-     * Base URI that is used to create order resources
-     *
-     * @var string
-     */
-    public static $baseUri = null;
-
-    /**
      * Content Type to use
      *
      * @var string
      */
-    public static $contentType = null;
+    private $_contentType = null;
 
     /**
      * URI of remote resource
@@ -123,7 +116,19 @@ class Klarna_Checkout_Order
      */
     public function getContentType()
     {
-        return self::$contentType;
+        return $this->_contentType;
+    }
+
+    /**
+     * Set the content type of the resource
+     *
+     * @param string $contentType Content type of the resource
+     *
+     * @return void
+     */
+    public function setContentType($contentType)
+    {
+        $this->_contentType = $contentType;
     }
 
     /**
@@ -158,7 +163,6 @@ class Klarna_Checkout_Order
     public function create(array $data)
     {
         $options = array(
-            'url' => self::$baseUri,
             'data' => $data
         );
 
